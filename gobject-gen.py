@@ -170,7 +170,7 @@ def make_class_init(data):
     if data['props']:
         lines.append('  object_class->get_property = %(class_lower)s_get_property;')
         lines.append('  object_class->set_property = %(class_lower)s_set_property;')
-    
+
     if data['dispose']:
         lines.append('  object_class->dispose = %(class_lower)s_dispose;')
 
@@ -221,10 +221,24 @@ def handle_post(button, ui):
 
     data['extra'] = '\n'.join([x % data for x in extra])
 
-    f = open (data['filename'] + '.h', 'w')
+    select_folder = gtk.FileChooserDialog(title="Select Destination",
+                                    action=gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER,
+                                    buttons=(gtk.STOCK_CANCEL,
+                                    gtk.RESPONSE_CANCEL,
+                                    gtk.STOCK_OPEN,
+                                    gtk.RESPONSE_ACCEPT))
+    if select_folder.run() == gtk.RESPONSE_ACCEPT:
+        folder = select_folder.get_filename() + "/"
+    else:
+        folder = ""
+    select_folder.destroy()
+    if folder == "":
+        return
+
+    f = open (folder + data['filename'] + '.h', 'w')
     f.write (h_template % data)
 
-    f = open (data['filename'] + '.c', 'w')
+    f = open (folder + data['filename'] + '.c', 'w')
     f.write (c_template % data)
 
 def guess_class_params (entry, ui):
