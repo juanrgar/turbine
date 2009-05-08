@@ -6,8 +6,22 @@
 # PyGTK Version by:
 #  Thomas Wood <thos@gnome.org>
 #
-# Copyright 2009 Thomas Wood
-# Released under GPLv3
+# Copyright 2009 Intel Corporation
+# Copyright 2005 Ross Burton
+# Copyright 2005 Dafydd Harries
+#
+#   This program is free software: you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation, either version 3 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 # Template text is Public Domain
 
@@ -15,12 +29,13 @@ import os
 import gtk
 import re
 
-PACKAGE_NAME = "GObject Generator"
+PACKAGE_NAME    = "GObject Generator"
 PACKAGE_VERSION = "0.1"
 PACKAGE_AUTHORS = ["Thomas Wood <thos@gnome.org>",
                    "Ross Burton <ross@burtonini.com>",
                    "Dafydd Harries <daf@rhydd.org>"]
-PACKAGE_COPYRIGHT = "Copyright 2009 Thomas Wood"
+PACKAGE_COPYRIGHT = "Copyright 2009 Intel Corporation\n" \
+                    "Copyright 2005 Ross Burton, Dafydd Harries"
 
 # TODO:\
 # toggle for property skeletons
@@ -300,6 +315,7 @@ def about_button_clicked_cb (button, ui):
     about.set_name (PACKAGE_NAME)
     about.set_version (PACKAGE_VERSION)
     about.set_authors (PACKAGE_AUTHORS)
+    about.set_copyright (PACKAGE_COPYRIGHT);
     about.set_license ("""
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
