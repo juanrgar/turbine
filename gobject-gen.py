@@ -73,13 +73,18 @@ G_BEGIN_DECLS
   (G_TYPE_INSTANCE_GET_CLASS ((obj), \\
   %(package_upper)s_TYPE_%(object_upper)s, %(class_camel)sClass))
 
-typedef struct {
-  %(parent_camel)s parent;
-} %(class_camel)s;
+typedef struct _%(class_camel)s %(class_camel)s;
+typedef struct _%(class_camel)sClass %(class_camel)sClass;
 
-typedef struct {
+struct _%(class_camel)s
+{
+  %(parent_camel)s parent;
+};
+
+struct _%(class_camel)sClass
+{
   %(parent_camel)sClass parent_class;
-} %(class_camel)sClass;
+};
 
 GType %(class_lower)s_get_type (void);
 
