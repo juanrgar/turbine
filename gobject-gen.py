@@ -75,10 +75,12 @@ G_BEGIN_DECLS
 
 typedef struct _%(class_camel)s %(class_camel)s;
 typedef struct _%(class_camel)sClass %(class_camel)sClass;
+%(priv_typedef)s
 
 struct _%(class_camel)s
 {
   %(parent_camel)s parent;
+%(priv_member)s
 };
 
 struct _%(class_camel)sClass
@@ -108,6 +110,7 @@ G_DEFINE_TYPE (%(class_camel)s, %(class_lower)s, %(parent)s)
 static void
 %(class_lower)s_init (%(class_camel)s *self)
 {
+%(priv_init)s
 }
 
 %(class_camel)s*
@@ -120,8 +123,6 @@ static void
 private_template = """\
 #define %(object_upper)s_PRIVATE(o) \\
   (G_TYPE_INSTANCE_GET_PRIVATE ((o), %(package_upper)s_TYPE_%(object_upper)s, %(class_camel)sPrivate))
-
-typedef struct _%(class_camel)sPrivate %(class_camel)sPrivate;
 
 struct _%(class_camel)sPrivate
 {
@@ -229,6 +230,13 @@ def handle_post(button, ui):
 
     if data['private']:
         extra.append(private_template)
+        data['priv_init'] = "  self->priv = " + data['object_upper'] + "_PRIVATE (self)"
+        data['priv_member'] = "  " + data['class_camel'] + "Private *priv;"
+        data['priv_typedef'] = "typedef struct _" + data['class_camel'] + " " + data['class_camel'] + "Private;"
+    else:
+        data['priv_init'] = "";
+        data['priv_member'] = "";
+        data['priv_typedef'] = "";
 
     if data['props']:
         extra.append(prop_template)
