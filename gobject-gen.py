@@ -230,7 +230,7 @@ def handle_post(button, ui):
 
     if data['private']:
         extra.append(private_template)
-        data['priv_init'] = "  self->priv = " + data['object_upper'] + "_PRIVATE (self)"
+        data['priv_init'] = "  self->priv = " + data['object_upper'] + "_PRIVATE (self);"
         data['priv_member'] = "  " + data['class_camel'] + "Private *priv;"
         data['priv_typedef'] = "typedef struct _" + data['class_camel'] + " " + data['class_camel'] + "Private;"
     else:
