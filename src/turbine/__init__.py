@@ -28,6 +28,7 @@
 import os
 import gtk
 import re
+import sys
 
 PACKAGE_NAME    = "GObject Generator"
 PACKAGE_VERSION = "0.1"
@@ -349,21 +350,23 @@ def about_button_clicked_cb (button, ui):
     about.destroy ()
 
 
-ui = gtk.Builder()
-ui.add_from_file ("ui.xml")
+def main(argv = sys.argv, stdout=sys.stdout, stderr=sys.stderr):
+    ui = gtk.Builder()
+    ui_file = os.path.join(os.path.dirname(__file__), 'turbine.xml');
+    ui.add_from_file (ui_file)
 
-window = ui.get_object ('main-window')
-window.show_all()
-window.connect ('delete-event', gtk.main_quit);
+    window = ui.get_object ('main-window')
+    window.show_all()
+    window.connect ('delete-event', gtk.main_quit);
 
-button = ui.get_object ('save-button')
-button.connect ('clicked', handle_post, ui)
+    button = ui.get_object ('save-button')
+    button.connect ('clicked', handle_post, ui)
 
-button = ui.get_object ('about-button')
-button.connect ('clicked', about_button_clicked_cb, ui)
+    button = ui.get_object ('about-button')
+    button.connect ('clicked', about_button_clicked_cb, ui)
 
-ui.get_object ('class_camel').connect ('changed', guess_class_params, ui)
-ui.get_object ('parent_camel').connect ('changed', guess_parent_params, ui)
+    ui.get_object ('class_camel').connect ('changed', guess_class_params, ui)
+    ui.get_object ('parent_camel').connect ('changed', guess_parent_params, ui)
 
-gtk.main()
+    gtk.main()
 
