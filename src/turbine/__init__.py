@@ -30,6 +30,8 @@ import gtk
 import re
 import sys
 
+import turbine.template
+
 PACKAGE_NAME    = "GObject Generator"
 PACKAGE_VERSION = "0.1"
 PACKAGE_AUTHORS = ["Thomas Wood <thos@gnome.org>",
@@ -41,134 +43,6 @@ PACKAGE_COPYRIGHT = "Copyright 2009 Intel Corporation\n" \
 # TODO:\
 # toggle for property skeletons
 # signals
-
-h_template = """\
-/* %(filename)s.h */
-
-#ifndef %(header_guard)s
-#define %(header_guard)s
-
-#include <glib-object.h>
-
-G_BEGIN_DECLS
-
-#define %(package_upper)s_TYPE_%(object_upper)s %(class_lower)s_get_type()
-
-#define %(package_upper)s_%(object_upper)s(obj) \\
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \\
-  %(package_upper)s_TYPE_%(object_upper)s, %(class_camel)s))
-
-#define %(package_upper)s_%(object_upper)s_CLASS(klass) \\
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \\
-  %(package_upper)s_TYPE_%(object_upper)s, %(class_camel)sClass))
-
-#define %(package_upper)s_IS_%(object_upper)s(obj) \\
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \\
-  %(package_upper)s_TYPE_%(object_upper)s))
-
-#define %(package_upper)s_IS_%(object_upper)s_CLASS(klass) \\
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \\
-  %(package_upper)s_TYPE_%(object_upper)s))
-
-#define %(package_upper)s_%(object_upper)s_GET_CLASS(obj) \\
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \\
-  %(package_upper)s_TYPE_%(object_upper)s, %(class_camel)sClass))
-
-typedef struct _%(class_camel)s %(class_camel)s;
-typedef struct _%(class_camel)sClass %(class_camel)sClass;
-%(priv_typedef)s
-
-struct _%(class_camel)s
-{
-  %(parent_camel)s parent;
-%(priv_member)s
-};
-
-struct _%(class_camel)sClass
-{
-  %(parent_camel)sClass parent_class;
-};
-
-GType %(class_lower)s_get_type (void);
-
-%(class_camel)s* %(class_lower)s_new (void);
-
-G_END_DECLS
-
-#endif /* %(header_guard)s */
-"""
-
-c_template = """\
-/* %(filename)s.c */
-
-#include "%(filename)s.h"
-
-G_DEFINE_TYPE (%(class_camel)s, %(class_lower)s, %(parent)s)
-
-%(extra)s
-%(class_init)s
-
-static void
-%(class_lower)s_init (%(class_camel)s *self)
-{
-%(priv_init)s
-}
-
-%(class_camel)s*
-%(class_lower)s_new (void)
-{
-  return g_object_new (%(package_upper)s_TYPE_%(object_upper)s, NULL);
-}
-"""
-
-private_template = """\
-#define %(object_upper)s_PRIVATE(o) \\
-  (G_TYPE_INSTANCE_GET_PRIVATE ((o), %(package_upper)s_TYPE_%(object_upper)s, %(class_camel)sPrivate))
-
-struct _%(class_camel)sPrivate
-{
-};
-"""
-
-prop_template = """\
-static void
-%(class_lower)s_get_property (GObject *object, guint property_id,
-                              GValue *value, GParamSpec *pspec)
-{
-  switch (property_id)
-    {
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-    }
-}
-
-static void
-%(class_lower)s_set_property (GObject *object, guint property_id,
-                              const GValue *value, GParamSpec *pspec)
-{
-  switch (property_id)
-    {
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-    }
-}
-"""
-
-dispose_template = """\
-static void
-%(class_lower)s_dispose (GObject *object)
-{
-  G_OBJECT_CLASS (%(class_lower)s_parent_class)->dispose (object);
-}
-"""
-
-finalize_template = """\
-static void
-%(class_lower)s_finalize (GObject *object)
-{
-  G_OBJECT_CLASS (%(class_lower)s_parent_class)->finalize (object);
-}
-"""
 
 def make_class_init(data):
     lines = [
@@ -230,7 +104,7 @@ def handle_post(button, ui):
     extra = []
 
     if data['private']:
-        extra.append(private_template)
+        extra.append(template.private_template)
         data['priv_init'] = "  self->priv = " + data['object_upper'] + "_PRIVATE (self);"
         data['priv_member'] = "  " + data['class_camel'] + "Private *priv;"
         data['priv_typedef'] = "typedef struct _" + data['class_camel'] + " " + data['class_camel'] + "Private;"
@@ -240,13 +114,13 @@ def handle_post(button, ui):
         data['priv_typedef'] = "";
 
     if data['props']:
-        extra.append(prop_template)
+        extra.append(template.prop_template)
 
     if data['dispose']:
-        extra.append(dispose_template)
+        extra.append(template.dispose_template)
 
     if data['finalize']:
-        extra.append(finalize_template)
+        extra.append(template.finalize_template)
 
     data['extra'] = '\n'.join([x % data for x in extra])
 
@@ -265,10 +139,10 @@ def handle_post(button, ui):
         return
 
     f = open (folder + data['filename'] + '.h', 'w')
-    f.write (h_template % data)
+    f.write (template.h_template % data)
 
     f = open (folder + data['filename'] + '.c', 'w')
-    f.write (c_template % data)
+    f.write (template.c_template % data)
 
 def guess_class_params (entry, ui):
 
