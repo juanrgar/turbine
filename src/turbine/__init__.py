@@ -107,7 +107,7 @@ def handle_post(button, ui):
         extra.append(template.private_template)
         data['priv_init'] = "  self->priv = " + data['object_upper'] + "_PRIVATE (self);"
         data['priv_member'] = "  " + data['class_camel'] + "Private *priv;"
-        data['priv_typedef'] = "typedef struct _" + data['class_camel'] + " " + data['class_camel'] + "Private;"
+        data['priv_typedef'] = "typedef struct _" + data['class_camel'] + "Private " + data['class_camel'] + "Private;"
     else:
         data['priv_init'] = "";
         data['priv_member'] = "";
@@ -196,6 +196,9 @@ def guess_parent_params (entry, ui):
 
     ui.get_object ('parent').set_text (s.upper())
 
+def guessed_entry_changed (entry, ui):
+    entry.set_secondary_icon (gtk.STOCK_UNDO)
+
 
 def about_button_clicked_cb (button, ui):
     about = gtk.AboutDialog()
@@ -241,6 +244,12 @@ def main(argv = sys.argv, stdout=sys.stdout, stderr=sys.stderr):
 
     ui.get_object ('class_camel').connect ('changed', guess_class_params, ui)
     ui.get_object ('parent_camel').connect ('changed', guess_parent_params, ui)
+
+    ui.get_object ('package_upper').connect ('changed', guessed_entry_changed, ui)
+    ui.get_object ('object_upper').connect ('changed', guessed_entry_changed, ui)
+    ui.get_object ('class_lower').connect ('changed', guessed_entry_changed, ui)
+    ui.get_object ('parent').connect ('changed', guessed_entry_changed, ui)
+
 
     gtk.main()
 
