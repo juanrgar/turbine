@@ -176,6 +176,8 @@ def guess_class_params (entry, ui):
 
     ui.get_object ('class_lower').set_text (s.lower())
 
+    ui.get_object ('save-button').set_sensitive ((text != "") and (ui.get_object ('parent_camel').get_text () != ""))
+
 def guess_parent_params (entry, ui):
 
     text = entry.get_text()
@@ -195,6 +197,8 @@ def guess_parent_params (entry, ui):
             i = i + 1
 
     ui.get_object ('parent').set_text (s.upper())
+
+    ui.get_object ('save-button').set_sensitive ((text != "") and (ui.get_object ('class_camel').get_text () != ""))
 
 
 def about_button_clicked_cb (button, ui):
