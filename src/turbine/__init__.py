@@ -196,9 +196,6 @@ def guess_parent_params (entry, ui):
 
     ui.get_object ('parent').set_text (s.upper())
 
-def guessed_entry_changed (entry, ui):
-    entry.set_secondary_icon (gtk.STOCK_UNDO)
-
 
 def about_button_clicked_cb (button, ui):
     about = gtk.AboutDialog()
@@ -244,12 +241,6 @@ def main(argv = sys.argv, stdout=sys.stdout, stderr=sys.stderr):
 
     ui.get_object ('class_camel').connect ('changed', guess_class_params, ui)
     ui.get_object ('parent_camel').connect ('changed', guess_parent_params, ui)
-
-    ui.get_object ('package_upper').connect ('changed', guessed_entry_changed, ui)
-    ui.get_object ('object_upper').connect ('changed', guessed_entry_changed, ui)
-    ui.get_object ('class_lower').connect ('changed', guessed_entry_changed, ui)
-    ui.get_object ('parent').connect ('changed', guessed_entry_changed, ui)
-
 
     gtk.main()
 
