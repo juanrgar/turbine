@@ -64,6 +64,7 @@ typedef struct _%(class_camel)sClass %(class_camel)sClass;
 struct _%(class_camel)s
 {
   %(parent_camel)s parent;
+
 %(priv_member)s
 };
 
@@ -74,7 +75,7 @@ struct _%(class_camel)sClass
 
 GType %(class_lower)s_get_type (void);
 
-%(class_camel)s* %(class_lower)s_new (void);
+%(class_camel)s *%(class_lower)s_new (void);
 
 G_END_DECLS
 
@@ -97,7 +98,7 @@ static void
 %(priv_init)s
 }
 
-%(class_camel)s*
+%(class_camel)s *
 %(class_lower)s_new (void)
 {
   return g_object_new (%(package_upper)s_TYPE_%(object_upper)s, NULL);
