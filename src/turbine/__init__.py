@@ -183,18 +183,16 @@ def guess_parent_params (entry, ui):
     text = entry.get_text()
 
     # special case GObject
-    if (text == 'GObject'):
-      s = 'G_TYPE_OBJECT'
-    else:
+    s = ''
+    prefix = re.match ('[A-Z][a-z]*', text)
+    if (prefix):
+      prefix = prefix.group (0)
+      text = text.replace (prefix, '', 1)
       m = re.findall ('[A-Z]+[a-z]*', text)
-      s = ''
+      s = prefix + '_TYPE'
       if (m):
-        s = m[0] + '_TYPE'
-        if (len(m) > 1):
-          i = 1
-          while (i < len(m)):
-            s = s + "_" + m[i]
-            i = i + 1
+        for i in m:
+          s = s + "_" + i
 
     ui.get_object ('parent').set_text (s.upper())
 
