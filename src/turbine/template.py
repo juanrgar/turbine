@@ -116,8 +116,7 @@ struct _%(class_camel)sPrivate
 
 prop_template = """\
 static void
-%(class_lower)s_get_property (GObject *object, guint property_id,
-                              GValue *value, GParamSpec *pspec)
+%(class_lower)s_get_property (GObject *object, guint property_id, GValue *value, GParamSpec *pspec)
 {
   switch (property_id)
     {
@@ -127,8 +126,7 @@ static void
 }
 
 static void
-%(class_lower)s_set_property (GObject *object, guint property_id,
-                              const GValue *value, GParamSpec *pspec)
+%(class_lower)s_set_property (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec)
 {
   switch (property_id)
     {
