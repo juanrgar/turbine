@@ -225,6 +225,38 @@ def about_button_clicked_cb (button, ui):
     about.run ()
     about.destroy ()
 
+def add_interface_cb (button, ui):
+    model = ui.get_object ("interfaces-model")
+    iter = model.append (["G_TYPE_OBJECT"])
+    treeview = ui.get_object ("interfaces-treeview")
+
+    column = treeview.get_column (0)
+    path = model.get_path (iter)
+
+    treeview.set_cursor (path, column, True)
+
+def remove_interface_cb (button, ui):
+    selection = ui.get_object ("interfaces-treeview").get_selection ()
+    (model, iter) = selection.get_selected ()
+    if (iter == None):
+        return
+    # move selection forward
+    newiter = model.iter_next (iter)
+    # or backward ...
+    if (newiter == None):
+        path = model.get_path (iter)
+        path = (path[0] - 1,)
+        if (path[0] >= 0):
+          newiter = model.get_iter (path)
+
+    if (newiter):
+      selection.select_iter (newiter)
+    if (iter):
+        model.remove (iter);
+
+def interface_edited_cb (cellrenderertext, path, new_text, ui):
+    model = ui.get_object ("interfaces-model")
+    model.set (model.get_iter (path), 0, new_text)
 
 def main(argv = sys.argv, stdout=sys.stdout, stderr=sys.stderr):
     ui = gtk.Builder()
@@ -243,6 +275,14 @@ def main(argv = sys.argv, stdout=sys.stdout, stderr=sys.stderr):
 
     ui.get_object ('class_camel').connect ('changed', guess_class_params, ui)
     ui.get_object ('parent_camel').connect ('changed', guess_parent_params, ui)
+
+    # implemented interfaces
+    ui.get_object ('add-interface-button').connect ('clicked',
+                                                    add_interface_cb, ui)
+    ui.get_object ('remove-interface-button').connect ('clicked',
+                                                       remove_interface_cb, ui)
+    ui.get_object ('interfaces-treeviewcell').connect ('edited',
+                                                       interface_edited_cb, ui)
 
     gtk.main()
 
