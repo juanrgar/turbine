@@ -40,9 +40,37 @@ PACKAGE_AUTHORS = ["Thomas Wood <thos@gnome.org>",
 PACKAGE_COPYRIGHT = "Copyright 2009 Intel Corporation\n" \
                     "Copyright 2005 Ross Burton, Dafydd Harries"
 
-# TODO:\
-# toggle for property skeletons
-# signals
+def make_iface_init_func_name (iface):
+    return (iface.replace ('_TYPE', '') + '_iface_init').lower()
+
+def make_type_definition (data):
+    define_type = ''
+    define_extra = ''
+
+    if (len (data['interfaces']) > 0):
+        define_extra = "\n"
+        for row in data['interfaces']:
+            define_type += "static void " + make_iface_init_func_name (row[0]) \
+                           + " (" + row[1] + " *iface);\n"
+            define_extra += "static void\n" \
+                            + make_iface_init_func_name (row[0]) \
+                            + " (" + row[1] + " *iface)\n" \
+                            + "{\n\n}\n\n";
+        define_type += "\nG_DEFINE_TYPE_WITH_CODE ("+ data['class_camel'] \
+                       + ", " \
+                       + data['class_lower'] + ", " + data['parent'] + ","
+        for row in data['interfaces']:
+            iface = row[0]
+            define_type = define_type + '\n                         ' + \
+                          "G_IMPLEMENT_INTERFACE (" + iface + ', ' + \
+                           make_iface_init_func_name (iface) + ')'
+        define_type += ')'
+    else:
+      define_type = "G_DEFINE_TYPE ("+ data['class_camel'] + ", " \
+                    + data['class_lower'] + ", " + data['parent'] + ')'
+
+    return (define_type, define_extra)
+
 
 def make_class_init(data):
     lines = [
@@ -82,6 +110,9 @@ def handle_post(button, ui):
     bool_keys = ("props", "finalize", "dispose", "private");
     data = {}
 
+    model = ui.get_object ('interfaces-model')
+    i = 0
+    data['interfaces'] = model
 
     for key in string_keys:
         # TODO: sanity check against nulls
@@ -100,11 +131,13 @@ def handle_post(button, ui):
 
     data['filename'] = data['class_lower'].replace('_', "-")
     data['class_init'] = make_class_init(data).strip()
+    (data['define_type'], data['interface_init']) = make_type_definition (data)
     data['header_guard'] = "_" + data['filename'].upper().replace('.', '_').replace('-', '_') + "_H"
     extra = []
+    private = []
 
     if data['private']:
-        extra.append(template.private_template)
+        private.append(template.private_template)
         data['priv_init'] = "  self->priv = " + data['object_upper'] + "_PRIVATE (self);"
         data['priv_member'] = "  " + data['class_camel'] + "Private *priv;"
         data['priv_typedef'] = "typedef struct _" + data['class_camel'] + "Private " + data['class_camel'] + "Private;"
@@ -121,6 +154,8 @@ def handle_post(button, ui):
 
     if data['finalize']:
         extra.append(template.finalize_template)
+
+    data['private'] = '\n'.join([x % data for x in private])
 
     data['extra'] = '\n'.join([x % data for x in extra])
 
@@ -227,7 +262,7 @@ def about_button_clicked_cb (button, ui):
 
 def add_interface_cb (button, ui):
     model = ui.get_object ("interfaces-model")
-    iter = model.append (["G_TYPE_OBJECT"])
+    iter = model.append (["", ""])
     treeview = ui.get_object ("interfaces-treeview")
 
     column = treeview.get_column (0)
@@ -256,7 +291,9 @@ def remove_interface_cb (button, ui):
 
 def interface_edited_cb (cellrenderertext, path, new_text, ui):
     model = ui.get_object ("interfaces-model")
-    model.set (model.get_iter (path), 0, new_text)
+    iter = model.get_iter (path)
+    struct_name = new_text.replace ('_TYPE', '').replace ('_', ' ').title().replace (' ', '') + 'Iface';
+    model.set (model.get_iter (path), 0, new_text, 1, struct_name)
 
 def main(argv = sys.argv, stdout=sys.stdout, stderr=sys.stderr):
     ui = gtk.Builder()

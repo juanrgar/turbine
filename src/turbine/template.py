@@ -87,8 +87,10 @@ c_template = """\
 
 #include "%(filename)s.h"
 
-G_DEFINE_TYPE (%(class_camel)s, %(class_lower)s, %(parent)s)
+%(define_type)s
 
+%(private)s
+%(interface_init)s
 %(extra)s
 %(class_init)s
 
