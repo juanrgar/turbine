@@ -6,6 +6,8 @@
     <columns>
       <!-- column-name type-name -->
       <column type="gchararray"/>
+      <!-- column-name struct-name -->
+      <column type="gchararray"/>
     </columns>
   </object>
   <object class="GtkWindow" id="main-window">
@@ -249,6 +251,19 @@
                                   </object>
                                   <attributes>
                                     <attribute name="text">0</attribute>
+                                  </attributes>
+                                </child>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkTreeViewColumn" id="treeviewcolumn2">
+                                <property name="title">Struct Name</property>
+                                <child>
+                                  <object class="GtkCellRendererText" id="struct-treeviewcell">
+                                    <property name="editable">True</property>
+                                  </object>
+                                  <attributes>
+                                    <attribute name="text">1</attribute>
                                   </attributes>
                                 </child>
                               </object>
