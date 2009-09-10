@@ -73,7 +73,7 @@ struct _%(class_camel)sClass
   %(parent_camel)sClass parent_class;
 };
 
-GType %(class_lower)s_get_type (void);
+GType %(class_lower)s_get_type (void) G_GNUC_CONST;
 
 %(class_camel)s *%(class_lower)s_new (void);
 
