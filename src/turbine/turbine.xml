@@ -492,4 +492,14 @@
       </object>
     </child>
   </object>
+  <object class="GtkSizeGroup" id="sizegroup">
+    <widgets>
+      <widget name="label4"/>
+      <widget name="label3"/>
+      <widget name="label7"/>
+      <widget name="label9"/>
+      <widget name="label6"/>
+      <widget name="label5"/>
+    </widgets>
+  </object>
 </interface>
