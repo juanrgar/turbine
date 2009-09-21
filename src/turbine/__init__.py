@@ -179,6 +179,10 @@ def handle_post(button, ui):
     f = open (folder + data['filename'] + '.c', 'w')
     f.write (template.c_template % data)
 
+    s = ui.get_object ('statusbar')
+    s.push (0, 'Object saved in "%(folder)s"' %
+               {'folder': folder + data['filename'] + '.{c,h}'})
+
 def guess_class_params (entry, ui):
 
     text = entry.get_text()
