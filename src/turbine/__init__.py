@@ -43,11 +43,23 @@ PACKAGE_COPYRIGHT = "Copyright 2009 Intel Corporation\n" \
 def make_iface_init_func_name (iface):
     return (iface.replace ('_TYPE', '') + '_iface_init').lower()
 
+def make_indent (str):
+    result = ""
+    while (len (str) > len (result)):
+        result += ' '
+    return result
+
 def make_type_definition (data):
     define_type = ''
     define_extra = ''
 
     if (len (data['interfaces']) > 0):
+
+        if (data['abstract']):
+            define_macro = "G_DEFINE_ABSTRACT_TYPE_WITH_CODE";
+        else:
+            define_macro = "G_DEFINE_TYPE_WITH_CODE"
+
         define_extra = "\n"
         for row in data['interfaces']:
             define_type += "static void " + make_iface_init_func_name (row[0]) \
@@ -56,18 +68,22 @@ def make_type_definition (data):
                             + make_iface_init_func_name (row[0]) \
                             + " (" + row[1] + " *iface)\n" \
                             + "{\n\n}\n\n";
-        define_type += "\nG_DEFINE_TYPE_WITH_CODE ("+ data['class_camel'] \
+        define_type += "\n" + define_macro + " ("+ data['class_camel'] \
                        + ", " \
                        + data['class_lower'] + ", " + data['parent'] + ","
         for row in data['interfaces']:
             iface = row[0]
-            define_type = define_type + '\n                         ' + \
-                          "G_IMPLEMENT_INTERFACE (" + iface + ', ' + \
+            define_type = define_type + '\n' + make_indent (define_macro) + \
+                          "  G_IMPLEMENT_INTERFACE (" + iface + ', ' + \
                            make_iface_init_func_name (iface) + ')'
         define_type += ')'
     else:
-      define_type = "G_DEFINE_TYPE ("+ data['class_camel'] + ", " \
-                    + data['class_lower'] + ", " + data['parent'] + ')'
+        if (data['abstract']):
+            define_macro = "G_DEFINE_ABSTRACT_TYPE"
+        else:
+            define_macro = "G_DEFINE_TYPE"
+        define_type = define_macro + " ("+ data['class_camel'] + ", " \
+                      + data['class_lower'] + ", " + data['parent'] + ')'
 
     return (define_type, define_extra)
 
@@ -107,7 +123,7 @@ def make_class_init(data):
 def handle_post(button, ui):
     string_keys = ("class_camel", "class_lower", "package_upper",
                    "object_upper", "parent", "parent_camel");
-    bool_keys = ("props", "finalize", "dispose", "private");
+    bool_keys = ("props", "finalize", "dispose", "private", "abstract");
     data = {}
 
     model = ui.get_object ('interfaces-model')

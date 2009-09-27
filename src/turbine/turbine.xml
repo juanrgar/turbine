@@ -80,7 +80,7 @@
                     <property name="left_padding">12</property>
                     <child>
                       <object class="GtkTable" id="table1">
-                        <property name="n_rows">4</property>
+                        <property name="n_rows">5</property>
                         <property name="n_columns">2</property>
                         <property name="column_spacing">6</property>
                         <property name="row_spacing">6</property>
@@ -179,6 +179,20 @@
                             <property name="right_attach">2</property>
                             <property name="top_attach">1</property>
                             <property name="bottom_attach">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkCheckButton" id="abstract">
+                            <property name="label" translatable="yes">Abstract type</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="draw_indicator">True</property>
+                          </object>
+                          <packing>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">4</property>
+                            <property name="bottom_attach">5</property>
                           </packing>
                         </child>
                       </object>
@@ -423,8 +437,8 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkCheckButton" id="props">
-                            <property name="label" translatable="yes">Include GObject property get/set</property>
+                          <object class="GtkCheckButton" id="finalize">
+                            <property name="label" translatable="yes">Include finalize</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
                             <property name="active">True</property>
@@ -435,8 +449,8 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkCheckButton" id="finalize">
-                            <property name="label" translatable="yes">Include finalize</property>
+                          <object class="GtkCheckButton" id="props">
+                            <property name="label" translatable="yes">Include GObject property get/set</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
                             <property name="active">True</property>
