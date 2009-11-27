@@ -99,7 +99,7 @@
                           <object class="GtkEntry" id="class_camel">
                             <property name="can_focus">True</property>
                             <property name="has_focus">True</property>
-                            <property name="tooltip_text" translatable="yes">CamelCase</property>
+                            <property name="tooltip_text" translatable="yes">Class name in CamelCase</property>
                             <property name="invisible_char">&#x25CF;</property>
                           </object>
                           <packing>
@@ -156,7 +156,7 @@
                         <child>
                           <object class="GtkEntry" id="object_upper">
                             <property name="can_focus">True</property>
-                            <property name="tooltip_text" translatable="yes">UPPER_CASE</property>
+                            <property name="tooltip_text" translatable="yes">Object name in UPPER_CASE</property>
                             <property name="invisible_char">&#x25CF;</property>
                           </object>
                           <packing>
@@ -169,7 +169,7 @@
                         <child>
                           <object class="GtkEntry" id="package_upper">
                             <property name="can_focus">True</property>
-                            <property name="tooltip_text" translatable="yes">UPPER_CASE</property>
+                            <property name="tooltip_text" translatable="yes">Package name in UPPER_CASE</property>
                             <property name="invisible_char">&#x25CF;</property>
                           </object>
                           <packing>
@@ -182,7 +182,7 @@
                         <child>
                           <object class="GtkEntry" id="class_lower">
                             <property name="can_focus">True</property>
-                            <property name="tooltip_text" translatable="yes">lower_case</property>
+                            <property name="tooltip_text" translatable="yes">Class name in lower_case</property>
                             <property name="invisible_char">&#x25CF;</property>
                           </object>
                           <packing>
@@ -240,7 +240,7 @@
                         <child>
                           <object class="GtkEntry" id="parent_camel">
                             <property name="can_focus">True</property>
-                            <property name="tooltip_text" translatable="yes">CamelCase</property>
+                            <property name="tooltip_text" translatable="yes">Parent class name in CamelCase</property>
                             <property name="invisible_char">&#x25CF;</property>
                           </object>
                           <packing>
@@ -261,7 +261,7 @@
                         <child>
                           <object class="GtkEntry" id="parent">
                             <property name="can_focus">True</property>
-                            <property name="tooltip_text" translatable="yes">TYPE_NAME</property>
+                            <property name="tooltip_text" translatable="yes">Parent TYPE_NAME</property>
                             <property name="invisible_char">&#x25CF;</property>
                           </object>
                           <packing>

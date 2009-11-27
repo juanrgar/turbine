@@ -322,6 +322,11 @@ def clear_ui (button, ui):
         ui.get_object (key).set_text ("")
     model = ui.get_object ('interfaces-model').clear ()
 
+def entry_focus_in_cb (entry, event, ui):
+    ui.get_object ("statusbar").push (0, entry.get_tooltip_text ())
+
+def entry_focus_out_cb (entry, event, ui):
+    ui.get_object ("statusbar").pop (0)
 
 def main(argv = sys.argv, stdout=sys.stdout, stderr=sys.stderr):
     ui = gtk.Builder()
@@ -340,6 +345,13 @@ def main(argv = sys.argv, stdout=sys.stdout, stderr=sys.stderr):
 
     button = ui.get_object ('about-button')
     button.connect ('clicked', about_button_clicked_cb, ui)
+
+    # enable hint text in the status bar
+    string_keys = ("class_camel", "class_lower", "package_upper",
+                   "object_upper", "parent", "parent_camel");
+    for key in string_keys:
+        ui.get_object (key).connect ("focus-in-event", entry_focus_in_cb, ui)
+        ui.get_object (key).connect ("focus-out-event", entry_focus_out_cb, ui)
 
     ui.get_object ('class_camel').connect ('changed', guess_class_params, ui)
     ui.get_object ('parent_camel').connect ('changed', guess_parent_params, ui)
