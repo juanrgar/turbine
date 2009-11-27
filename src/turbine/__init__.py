@@ -315,6 +315,15 @@ def interface_edited_cb (cellrenderertext, path, new_text, ui):
     struct_name = new_text.replace ('_TYPE', '').replace ('_', ' ').title().replace (' ', '') + 'Iface';
     model.set (model.get_iter (path), 0, new_text, 1, struct_name)
 
+def clear_ui (button, ui):
+    entry = ui.get_object
+    string_keys = ("class_camel", "class_lower", "package_upper",
+                   "object_upper", "parent", "parent_camel");
+    for key in string_keys:
+        ui.get_object (key).set_text ("")
+    model = ui.get_object ('interfaces-model').clear ()
+
+
 def main(argv = sys.argv, stdout=sys.stdout, stderr=sys.stderr):
     ui = gtk.Builder()
     ui_file = os.path.join(os.path.dirname(__file__), 'turbine.xml');
@@ -323,6 +332,9 @@ def main(argv = sys.argv, stdout=sys.stdout, stderr=sys.stderr):
     window = ui.get_object ('main-window')
     window.show_all()
     window.connect ('delete-event', gtk.main_quit);
+
+    button = ui.get_object ('new-button')
+    button.connect ('clicked', clear_ui, ui)
 
     button = ui.get_object ('save-button')
     button.connect ('clicked', handle_post, ui)

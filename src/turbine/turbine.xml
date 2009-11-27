@@ -23,6 +23,17 @@
           <object class="GtkToolbar" id="toolbar1">
             <property name="visible">True</property>
             <child>
+              <object class="GtkToolButton" id="new-button">
+                <property name="visible">True</property>
+                <property name="use_underline">True</property>
+                <property name="stock_id">gtk-new</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
               <object class="GtkToolButton" id="save-button">
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
