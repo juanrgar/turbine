@@ -163,7 +163,10 @@ def handle_post(button, ui):
         data['priv_typedef'] = "";
 
     if data['props']:
-        extra.append(template.prop_template)
+        indent = {}
+        indent['class_lower'] = data['class_lower']
+        indent['function_len'] = " " * (len(data['class_lower']) + 13)
+        extra.append(template.prop_template % indent)
 
     if data['dispose']:
         extra.append(template.dispose_template)
