@@ -204,7 +204,7 @@ def handle_post(button, ui):
 def guess_class_params (entry, ui):
 
     text = entry.get_text()
-    m = re.findall ('[A-Z]+[a-z]*', text)
+    m = re.findall ('[A-Z]+[a-z0-9]*', text)
     if (m):
       s = m[0]
     else:
