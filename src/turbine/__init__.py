@@ -148,7 +148,7 @@ def handle_post(button, ui):
     data['filename'] = data['class_lower'].replace('_', "-")
     data['class_init'] = make_class_init(data).strip()
     (data['define_type'], data['interface_init']) = make_type_definition (data)
-    data['header_guard'] = "_" + data['filename'].upper().replace('.', '_').replace('-', '_') + "_H"
+    data['header_guard'] = "__" + data['filename'].upper().replace('.', '_').replace('-', '_') + "_H__"
     extra = []
     private = []
 
