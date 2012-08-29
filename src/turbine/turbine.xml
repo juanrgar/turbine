@@ -27,6 +27,7 @@
                 <property name="visible">True</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-new</property>
+                <property name="tooltip_text">New object definition</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -40,6 +41,7 @@
                 <property name="is_important">True</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-save-as</property>
+                <property name="tooltip_text">Save object definition</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -63,6 +65,7 @@
                 <property name="visible">True</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-about</property>
+                <property name="tooltip_text">About Turbine</property>
               </object>
               <packing>
                 <property name="expand">False</property>
