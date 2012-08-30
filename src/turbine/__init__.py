@@ -6,7 +6,7 @@
 # PyGTK Version by:
 #  Thomas Wood <thos@gnome.org>
 #
-# Copyright 2009 Intel Corporation
+# Copyright 2009,2010,2012 Intel Corporation
 # Copyright 2005 Ross Burton
 # Copyright 2005 Dafydd Harries
 #
@@ -37,7 +37,7 @@ PACKAGE_VERSION = "0.1"
 PACKAGE_AUTHORS = ["Thomas Wood <thos@gnome.org>",
                    "Ross Burton <ross@burtonini.com>",
                    "Dafydd Harries <daf@rhydd.org>"]
-PACKAGE_COPYRIGHT = "Copyright 2009 Intel Corporation\n" \
+PACKAGE_COPYRIGHT = "Copyright 2009,2010,2012 Intel Corporation\n" \
                     "Copyright 2005 Ross Burton, Dafydd Harries"
 
 def make_iface_init_func_name (iface):
