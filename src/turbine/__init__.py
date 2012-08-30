@@ -26,7 +26,7 @@
 # Template text is Public Domain
 
 import os
-import gtk
+from gi.repository import Gtk
 import re
 import sys
 
@@ -138,8 +138,8 @@ def handle_post(button, ui):
         data[key] = ui.get_object (key).get_active()
 
     if (data['class_lower'] == ''):
-      dlg = gtk.MessageDialog (ui.get_object ("main-window"), gtk.DIALOG_MODAL,
-                               gtk.MESSAGE_ERROR, gtk.BUTTONS_OK)
+      dlg = Gtk.MessageDialog (ui.get_object ("main-window"), Gtk.DIALOG_MODAL,
+                               Gtk.MESSAGE_ERROR, Gtk.BUTTONS_OK)
       dlg.set_markup ("No class name specified!")
       dlg.run ()
       dlg.destroy ()
@@ -178,13 +178,13 @@ def handle_post(button, ui):
 
     data['extra'] = '\n'.join([x % data for x in extra])
 
-    select_folder = gtk.FileChooserDialog(title="Select Destination",
-                                    action=gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER,
-                                    buttons=(gtk.STOCK_CANCEL,
-                                    gtk.RESPONSE_CANCEL,
-                                    gtk.STOCK_OPEN,
-                                    gtk.RESPONSE_ACCEPT))
-    if select_folder.run() == gtk.RESPONSE_ACCEPT:
+    select_folder = Gtk.FileChooserDialog(title="Select Destination",
+                                    action=Gtk.FileChooserAction.SELECT_FOLDER,
+                                    buttons=(Gtk.STOCK_CANCEL,
+                                    Gtk.ResponseType.CANCEL,
+                                    Gtk.STOCK_OPEN,
+                                    Gtk.ResponseType.ACCEPT))
+    if select_folder.run() == Gtk.ResponseType.ACCEPT:
         folder = select_folder.get_filename() + "/"
     else:
         folder = ""
@@ -257,7 +257,7 @@ def guess_parent_params (entry, ui):
 
 
 def about_button_clicked_cb (button, ui):
-    about = gtk.AboutDialog()
+    about = Gtk.AboutDialog()
     about.set_transient_for (ui.get_object ('main-window'))
     about.set_name (PACKAGE_NAME)
     about.set_version (PACKAGE_VERSION)
@@ -332,13 +332,13 @@ def entry_focus_out_cb (entry, event, ui):
     ui.get_object ("statusbar").pop (0)
 
 def main(argv = sys.argv, stdout=sys.stdout, stderr=sys.stderr):
-    ui = gtk.Builder()
+    ui = Gtk.Builder()
     ui_file = os.path.join(os.path.dirname(__file__), 'turbine.xml');
     ui.add_from_file (ui_file)
 
     window = ui.get_object ('main-window')
     window.show_all()
-    window.connect ('delete-event', gtk.main_quit);
+    window.connect ('delete-event', Gtk.main_quit);
 
     button = ui.get_object ('new-button')
     button.connect ('clicked', clear_ui, ui)
@@ -367,5 +367,5 @@ def main(argv = sys.argv, stdout=sys.stdout, stderr=sys.stderr):
     ui.get_object ('interfaces-treeviewcell').connect ('edited',
                                                        interface_edited_cb, ui)
 
-    gtk.main()
+    Gtk.main()
 

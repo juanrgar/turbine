@@ -511,7 +511,6 @@
           <object class="GtkStatusbar" id="statusbar">
             <property name="visible">True</property>
             <property name="spacing">2</property>
-            <property name="has_resize_grip">False</property>
           </object>
           <packing>
             <property name="expand">False</property>
