@@ -178,12 +178,13 @@ def handle_post(button, ui):
 
     data['extra'] = '\n'.join([x % data for x in extra])
 
-    select_folder = Gtk.FileChooserDialog(title="Select Destination",
-                                    action=Gtk.FileChooserAction.SELECT_FOLDER,
-                                    buttons=(Gtk.STOCK_CANCEL,
-                                    Gtk.ResponseType.CANCEL,
-                                    Gtk.STOCK_OPEN,
-                                    Gtk.ResponseType.ACCEPT))
+    select_folder = Gtk.FileChooserDialog("Select Destination",
+                                          ui.get_object ("main-window"),
+                                          Gtk.FileChooserAction.SELECT_FOLDER,
+                                          (Gtk.STOCK_CANCEL,
+                                           Gtk.ResponseType.CANCEL,
+                                           Gtk.STOCK_OPEN,
+                                           Gtk.ResponseType.ACCEPT))
     if select_folder.run() == Gtk.ResponseType.ACCEPT:
         folder = select_folder.get_filename() + "/"
     else:
