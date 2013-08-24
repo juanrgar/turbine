@@ -112,7 +112,7 @@
                         </child>
                         <child>
                           <object class="GtkLabel" id="label4">
-                            <property name="xalign">0</property>
+                            <property name="xalign">1</property>
                             <property name="label" translatable="yes">Object name</property>
                           </object>
                           <packing>
@@ -124,7 +124,7 @@
                         </child>
                         <child>
                           <object class="GtkLabel" id="label3">
-                            <property name="xalign">0</property>
+                            <property name="xalign">1</property>
                             <property name="label" translatable="yes">Package name</property>
                           </object>
                           <packing>
@@ -136,7 +136,7 @@
                         </child>
                         <child>
                           <object class="GtkLabel" id="label7">
-                            <property name="xalign">0</property>
+                            <property name="xalign">1</property>
                             <property name="label" translatable="yes">Class name</property>
                           </object>
                           <packing>
@@ -148,7 +148,7 @@
                         </child>
                         <child>
                           <object class="GtkLabel" id="label9">
-                            <property name="xalign">0</property>
+                            <property name="xalign">1</property>
                             <property name="label" translatable="yes">Full class name</property>
                           </object>
                           <packing>
@@ -195,20 +195,6 @@
                             <property name="bottom_attach">2</property>
                           </packing>
                         </child>
-                        <child>
-                          <object class="GtkCheckButton" id="abstract">
-                            <property name="label" translatable="yes">Abstract type</property>
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
-                            <property name="draw_indicator">True</property>
-                          </object>
-                          <packing>
-                            <property name="right_attach">2</property>
-                            <property name="top_attach">4</property>
-                            <property name="bottom_attach">5</property>
-                          </packing>
-                        </child>
                       </object>
                     </child>
                   </object>
@@ -253,7 +239,7 @@
                         </child>
                         <child>
                           <object class="GtkLabel" id="label6">
-                            <property name="xalign">0</property>
+                            <property name="xalign">1</property>
                             <property name="label" translatable="yes">Parent</property>
                           </object>
                           <packing>
@@ -276,7 +262,7 @@
                         </child>
                         <child>
                           <object class="GtkLabel" id="label5">
-                            <property name="xalign">0</property>
+                            <property name="xalign">1</property>
                             <property name="label" translatable="yes">Parent type</property>
                           </object>
                           <packing>
@@ -439,6 +425,18 @@
                       <object class="GtkVBox" id="vbox2">
                         <property name="orientation">vertical</property>
                         <child>
+                          <object class="GtkCheckButton" id="abstract">
+                            <property name="label" translatable="yes">Abstract type</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="draw_indicator">True</property>
+                          </object>
+                          <packing>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
                           <object class="GtkCheckButton" id="private">
                             <property name="label" translatable="yes">Include Private Struct</property>
                             <property name="can_focus">True</property>
@@ -447,7 +445,7 @@
                             <property name="draw_indicator">True</property>
                           </object>
                           <packing>
-                            <property name="position">0</property>
+                            <property name="position">1</property>
                           </packing>
                         </child>
                         <child>
@@ -459,7 +457,7 @@
                             <property name="draw_indicator">True</property>
                           </object>
                           <packing>
-                            <property name="position">1</property>
+                            <property name="position">2</property>
                           </packing>
                         </child>
                         <child>
@@ -471,7 +469,7 @@
                             <property name="draw_indicator">True</property>
                           </object>
                           <packing>
-                            <property name="position">2</property>
+                            <property name="position">3</property>
                           </packing>
                         </child>
                         <child>
@@ -483,7 +481,7 @@
                             <property name="draw_indicator">True</property>
                           </object>
                           <packing>
-                            <property name="position">3</property>
+                            <property name="position">4</property>
                           </packing>
                         </child>
                       </object>
