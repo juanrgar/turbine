@@ -14,7 +14,7 @@
     <property name="visible">True</property>
     <property name="vexpand">False</property>
     <child>
-      <object class="GtkToolButton" id="new-button">
+      <object class="GtkToolButton" id="new_button">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="tooltip_text">New object definition</property>
@@ -23,7 +23,7 @@
       </object>
     </child>
     <child>
-      <object class="GtkToolButton" id="save-button">
+      <object class="GtkToolButton" id="save_button">
         <property name="visible">True</property>
         <property name="sensitive">False</property>
         <property name="can_focus">False</property>
@@ -34,7 +34,7 @@
       </object>
     </child>
   </object>
-  <object class="GtkVBox" id="main-vbox">
+  <object class="GtkVBox" id="main_vbox">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <child>
@@ -67,7 +67,7 @@
                       <placeholder/>
                     </child>
                     <child>
-                      <object class="GtkEntry" id="class-camel">
+                      <object class="GtkEntry" id="class_camel">
                         <property name="can_focus">True</property>
                         <property name="has_focus">True</property>
                         <property name="tooltip_text" translatable="yes">Class name in CamelCase</property>
@@ -129,7 +129,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkEntry" id="object-upper">
+                      <object class="GtkEntry" id="object_upper">
                         <property name="can_focus">True</property>
                         <property name="tooltip_text" translatable="yes">Object name in UPPER_CASE</property>
                         <property name="invisible_char">●</property>
@@ -142,7 +142,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkEntry" id="package-upper">
+                      <object class="GtkEntry" id="package_upper">
                         <property name="can_focus">True</property>
                         <property name="tooltip_text" translatable="yes">Package name in UPPER_CASE</property>
                         <property name="invisible_char">●</property>
@@ -155,7 +155,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkEntry" id="class-lower">
+                      <object class="GtkEntry" id="class_lower">
                         <property name="can_focus">True</property>
                         <property name="tooltip_text" translatable="yes">Class name in lower_case</property>
                         <property name="invisible_char">●</property>
@@ -205,7 +205,7 @@
                     <property name="column_spacing">6</property>
                     <property name="row_spacing">6</property>
                     <child>
-                      <object class="GtkEntry" id="parent-camel">
+                      <object class="GtkEntry" id="parent_camel">
                         <property name="can_focus">True</property>
                         <property name="tooltip_text" translatable="yes">Parent class name in CamelCase</property>
                         <property name="invisible_char">●</property>

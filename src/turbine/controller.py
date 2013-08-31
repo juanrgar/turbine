@@ -33,27 +33,27 @@ class Controller:
         pass
 
     def save (self, folder, data):
-        data['filename'] = data['class-lower'].replace('_', '-')
-        data['class-init'] = self.make_class_init(data).strip()
-        (data['define-type'], data['interface-init']) = self.make_type_definition (data)
-        data['header-guard'] = '__' + data['filename'].upper().replace('.', '_').replace('-', '_') + '_H__'
+        data['filename'] = data['class_lower'].replace('_', '-')
+        data['class_init'] = self.make_class_init(data).strip()
+        (data['define_type'], data['interface_init']) = self.make_type_definition (data)
+        data['header_guard'] = '__' + data['filename'].upper().replace('.', '_').replace('-', '_') + '_H__'
         extra = []
         private = []
 
         if data['private']:
             private.append(template.private_template)
-            data['priv-init'] = "  self->priv = " + data['object-upper'] + "_PRIVATE (self);"
-            data['priv-member'] = "  " + data['class-camel'] + "Private *priv;"
-            data['priv-typedef'] = "typedef struct _" + data['class-camel'] + "Private " + data['class-camel'] + "Private;"
+            data['priv_init'] = "  self->priv = " + data['object_upper'] + "_PRIVATE (self);"
+            data['priv_member'] = "  " + data['class_camel'] + "Private *priv;"
+            data['priv_typedef'] = "typedef struct _" + data['class_camel'] + "Private " + data['class_camel'] + "Private;"
         else:
-            data['priv-init'] = "";
-            data['priv-member'] = "";
-            data['priv-typedef'] = "";
+            data['priv_init'] = "";
+            data['priv_member'] = "";
+            data['priv_typedef'] = "";
 
         if data['props']:
             indent = {}
-            indent['class-lower'] = data['class-lower']
-            indent['function-len'] = " " * (len(data['class-lower']) + 13)
+            indent['class_lower'] = data['class_lower']
+            indent['function_len'] = " " * (len(data['class_lower']) + 13)
             extra.append(template.prop_template % indent)
 
         if data['dispose']:
@@ -77,7 +77,7 @@ class Controller:
     def make_class_init (self, data):
         lines = [
             'static void',
-            '%(class-lower)s_class_init (%(class-camel)sClass *klass)',
+            '%(class_lower)s_class_init (%(class_camel)sClass *klass)',
             '{'
             ]
     
@@ -88,20 +88,20 @@ class Controller:
         if data['private']:
             lines.append(
                 '  g_type_class_add_private (klass, '
-                'sizeof (%(class-camel)sPrivate));')
+                'sizeof (%(class_camel)sPrivate));')
     
         if data['dispose'] or data['finalize'] or data['props']:
             lines.append('')
     
         if data['props']:
-            lines.append('  object_class->get_property = %(class-lower)s_get_property;')
-            lines.append('  object_class->set_property = %(class-lower)s_set_property;')
+            lines.append('  object_class->get_property = %(class_lower)s_get_property;')
+            lines.append('  object_class->set_property = %(class_lower)s_set_property;')
     
         if data['dispose']:
-            lines.append('  object_class->dispose = %(class-lower)s_dispose;')
+            lines.append('  object_class->dispose = %(class_lower)s_dispose;')
     
         if data['finalize']:
-            lines.append('  object_class->finalize = %(class-lower)s_finalize;')
+            lines.append('  object_class->finalize = %(class_lower)s_finalize;')
     
         lines.append('}')
         return ''.join([line % data + '\n' for line in lines])
@@ -134,9 +134,9 @@ class Controller:
                                 + self.make_iface_init_func_name (row[0]) \
                                 + " (" + row[1] + " *iface)\n" \
                                 + "{\n\n}\n\n";
-            define_type += "\n" + define_macro + " ("+ data['class-camel'] \
+            define_type += "\n" + define_macro + " ("+ data['class_camel'] \
                            + ", " \
-                           + data['class-lower'] + ", " + data['parent'] + ","
+                           + data['class_lower'] + ", " + data['parent'] + ","
             for row in data['interfaces']:
                 iface = row[0]
                 define_type = define_type + '\n' + self.make_indent (define_macro) + \
@@ -148,8 +148,8 @@ class Controller:
                 define_macro = "G_DEFINE_ABSTRACT_TYPE"
             else:
                 define_macro = "G_DEFINE_TYPE"
-            define_type = define_macro + " ("+ data['class-camel'] + ", " \
-                          + data['class-lower'] + ", " + data['parent'] + ')'
+            define_type = define_macro + " ("+ data['class_camel'] + ", " \
+                          + data['class_lower'] + ", " + data['parent'] + ')'
     
         return (define_type, define_extra)
 

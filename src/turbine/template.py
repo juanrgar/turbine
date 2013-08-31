@@ -28,58 +28,58 @@
 h_template = """\
 /* %(filename)s.h */
 
-#ifndef %(header-guard)s
-#define %(header-guard)s
+#ifndef %(header_guard)s
+#define %(header_guard)s
 
 #include <glib-object.h>
 
 G_BEGIN_DECLS
 
-#define %(package-upper)s_TYPE_%(object-upper)s %(class-lower)s_get_type()
+#define %(package_upper)s_TYPE_%(object_upper)s %(class_lower)s_get_type()
 
-#define %(package-upper)s_%(object-upper)s(obj) \\
+#define %(package_upper)s_%(object_upper)s(obj) \\
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \\
-  %(package-upper)s_TYPE_%(object-upper)s, %(class-camel)s))
+  %(package_upper)s_TYPE_%(object_upper)s, %(class_camel)s))
 
-#define %(package-upper)s_%(object-upper)s_CLASS(klass) \\
+#define %(package_upper)s_%(object_upper)s_CLASS(klass) \\
   (G_TYPE_CHECK_CLASS_CAST ((klass), \\
-  %(package-upper)s_TYPE_%(object-upper)s, %(class-camel)sClass))
+  %(package_upper)s_TYPE_%(object_upper)s, %(class_camel)sClass))
 
-#define %(package-upper)s_IS_%(object-upper)s(obj) \\
+#define %(package_upper)s_IS_%(object_upper)s(obj) \\
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \\
-  %(package-upper)s_TYPE_%(object-upper)s))
+  %(package_upper)s_TYPE_%(object_upper)s))
 
-#define %(package-upper)s_IS_%(object-upper)s_CLASS(klass) \\
+#define %(package_upper)s_IS_%(object_upper)s_CLASS(klass) \\
   (G_TYPE_CHECK_CLASS_TYPE ((klass), \\
-  %(package-upper)s_TYPE_%(object-upper)s))
+  %(package_upper)s_TYPE_%(object_upper)s))
 
-#define %(package-upper)s_%(object-upper)s_GET_CLASS(obj) \\
+#define %(package_upper)s_%(object_upper)s_GET_CLASS(obj) \\
   (G_TYPE_INSTANCE_GET_CLASS ((obj), \\
-  %(package-upper)s_TYPE_%(object-upper)s, %(class-camel)sClass))
+  %(package_upper)s_TYPE_%(object_upper)s, %(class_camel)sClass))
 
-typedef struct _%(class-camel)s %(class-camel)s;
-typedef struct _%(class-camel)sClass %(class-camel)sClass;
-%(priv-typedef)s
+typedef struct _%(class_camel)s %(class_camel)s;
+typedef struct _%(class_camel)sClass %(class_camel)sClass;
+%(priv_typedef)s
 
-struct _%(class-camel)s
+struct _%(class_camel)s
 {
-  %(parent-camel)s parent;
+  %(parent_camel)s parent;
 
-%(priv-member)s
+%(priv_member)s
 };
 
-struct _%(class-camel)sClass
+struct _%(class_camel)sClass
 {
-  %(parent-camel)sClass parent_class;
+  %(parent_camel)sClass parent_class;
 };
 
-GType %(class-lower)s_get_type (void) G_GNUC_CONST;
+GType %(class_lower)s_get_type (void) G_GNUC_CONST;
 
-%(class-camel)s *%(class-lower)s_new (void);
+%(class_camel)s *%(class_lower)s_new (void);
 
 G_END_DECLS
 
-#endif /* %(header-guard)s */
+#endif /* %(header_guard)s */
 """
 
 c_template = """\
@@ -87,41 +87,41 @@ c_template = """\
 
 #include "%(filename)s.h"
 
-%(define-type)s
+%(define_type)s
 
 %(private)s
-%(interface-init)s
+%(interface_init)s
 %(extra)s
-%(class-init)s
+%(class_init)s
 
 static void
-%(class-lower)s_init (%(class-camel)s *self)
+%(class_lower)s_init (%(class_camel)s *self)
 {
-%(priv-init)s
+%(priv_init)s
 }
 
-%(class-camel)s *
-%(class-lower)s_new (void)
+%(class_camel)s *
+%(class_lower)s_new (void)
 {
-  return g_object_new (%(package-upper)s_TYPE_%(object-upper)s, NULL);
+  return g_object_new (%(package_upper)s_TYPE_%(object_upper)s, NULL);
 }
 """
 
 private_template = """\
-#define %(object-upper)s_PRIVATE(o) \\
-  (G_TYPE_INSTANCE_GET_PRIVATE ((o), %(package-upper)s_TYPE_%(object-upper)s, %(class-camel)sPrivate))
+#define %(object_upper)s_PRIVATE(o) \\
+  (G_TYPE_INSTANCE_GET_PRIVATE ((o), %(package_upper)s_TYPE_%(object_upper)s, %(class_camel)sPrivate))
 
-struct _%(class-camel)sPrivate
+struct _%(class_camel)sPrivate
 {
 };
 """
 
 prop_template = """\
 static void
-%(class-lower)s_get_property (GObject    *object,
-%(function-len)s  guint       property_id,
-%(function-len)s  GValue     *value,
-%(function-len)s  GParamSpec *pspec)
+%(class_lower)s_get_property (GObject    *object,
+%(function_len)s  guint       property_id,
+%(function_len)s  GValue     *value,
+%(function_len)s  GParamSpec *pspec)
 {
   switch (property_id)
     {
@@ -131,10 +131,10 @@ static void
 }
 
 static void
-%(class-lower)s_set_property (GObject      *object,
-%(function-len)s  guint         property_id,
-%(function-len)s  const GValue *value,
-%(function-len)s  GParamSpec   *pspec)
+%(class_lower)s_set_property (GObject      *object,
+%(function_len)s  guint         property_id,
+%(function_len)s  const GValue *value,
+%(function_len)s  GParamSpec   *pspec)
 {
   switch (property_id)
     {
@@ -146,16 +146,16 @@ static void
 
 dispose_template = """\
 static void
-%(class-lower)s_dispose (GObject *object)
+%(class_lower)s_dispose (GObject *object)
 {
-  G_OBJECT_CLASS (%(class-lower)s_parent_class)->dispose (object);
+  G_OBJECT_CLASS (%(class_lower)s_parent_class)->dispose (object);
 }
 """
 
 finalize_template = """\
 static void
-%(class-lower)s_finalize (GObject *object)
+%(class_lower)s_finalize (GObject *object)
 {
-  G_OBJECT_CLASS (%(class-lower)s_parent_class)->finalize (object);
+  G_OBJECT_CLASS (%(class_lower)s_parent_class)->finalize (object);
 }
 """

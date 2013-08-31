@@ -45,11 +45,11 @@ class Window (Gtk.ApplicationWindow):
         self._builder.add_from_file (ui_file)
 
         headerbar = self._builder.get_object ('headerbar')
-        main_vbox = self._builder.get_object ('main-vbox')
-        new_button = self._builder.get_object ('new-button')
-        save_button = self._builder.get_object ('save-button')
-        class_camel_entry = self._builder.get_object ('class-camel')
-        parent_camel_entry = self._builder.get_object ('parent-camel')
+        main_vbox = self._builder.get_object ('main_vbox')
+        new_button = self._builder.get_object ('new_button')
+        save_button = self._builder.get_object ('save_button')
+        class_camel_entry = self._builder.get_object ('class_camel')
+        parent_camel_entry = self._builder.get_object ('parent_camel')
 
         new_button.connect ('clicked', self.new)
         save_button.connect ('clicked', self.save)
@@ -63,8 +63,8 @@ class Window (Gtk.ApplicationWindow):
         self.show_all ()
 
     def new (self, widget):
-        string_keys = ('class-camel', 'class-lower', 'package-upper',
-                       'object-upper', 'parent', 'parent-camel')
+        string_keys = ('class_camel', 'class_lower', 'package_upper',
+                       'object_upper', 'parent', 'parent_camel')
         for key in string_keys:
             self._builder.get_object (key).set_text ('')
         self._builder.get_object ('interfaces-model').clear ()
@@ -85,8 +85,8 @@ class Window (Gtk.ApplicationWindow):
         if folder == '':
             return
 
-        string_keys = ('class-camel', 'class-lower', 'package-upper',
-                       'object-upper', 'parent', 'parent-camel')
+        string_keys = ('class_camel', 'class_lower', 'package_upper',
+                       'object_upper', 'parent', 'parent_camel')
         bool_keys = ('props', 'finalize', 'dispose', 'private', 'abstract')
         data = {}
 
@@ -100,7 +100,7 @@ class Window (Gtk.ApplicationWindow):
         for key in bool_keys:
             data[key] = self._builder.get_object (key).get_active()
 
-#        if data['class-lower'] == '':
+#        if data['class_lower'] == '':
 #          dlg = Gtk.MessageDialog (self._builder.get_object ('main-window'), Gtk.DIALOG_MODAL,
 #                                   Gtk.MESSAGE_ERROR, Gtk.BUTTONS_OK)
 #          dlg.set_markup ("No class name specified!")
@@ -115,8 +115,8 @@ class Window (Gtk.ApplicationWindow):
             s.push (0, 'Object saved as "' + filename + '.{c,h}"')
 
     def setup_statusbar (self):
-        string_keys = ('class-camel', 'class-lower', 'package-upper',
-                       'object-upper', 'parent', 'parent-camel')
+        string_keys = ('class_camel', 'class_lower', 'package_upper',
+                       'object_upper', 'parent', 'parent_camel')
         for key in string_keys:
             self._builder.get_object (key).connect ('focus-in-event', self.entry_focus_in)
             self._builder.get_object (key).connect ('focus-out-event', self.entry_focus_out)
@@ -134,7 +134,7 @@ class Window (Gtk.ApplicationWindow):
           s = m[0]
         else:
           s = ''
-        self._builder.get_object ('package-upper').set_text (s.upper())
+        self._builder.get_object ('package_upper').set_text (s.upper())
 
         if (m and len(m) > 1):
           s = m[1]
@@ -145,7 +145,7 @@ class Window (Gtk.ApplicationWindow):
         else:
            s = ''
 
-        self._builder.get_object ('object-upper').set_text (s.upper())
+        self._builder.get_object ('object_upper').set_text (s.upper())
 
         if (m):
           s = m[0]
@@ -156,9 +156,9 @@ class Window (Gtk.ApplicationWindow):
         else:
           s = ''
 
-        self._builder.get_object ('class-lower').set_text (s.lower())
+        self._builder.get_object ('class_lower').set_text (s.lower())
 
-        self._builder.get_object ('save-button').set_sensitive ((text != '') and (self._builder.get_object ('parent-camel').get_text () != ''))
+        self._builder.get_object ('save_button').set_sensitive ((text != '') and (self._builder.get_object ('parent_camel').get_text () != ''))
 
     def guess_parent_params (self, entry):
         text = entry.get_text()
@@ -177,7 +177,7 @@ class Window (Gtk.ApplicationWindow):
 
         self._builder.get_object ('parent').set_text (s.upper())
 
-        self._builder.get_object ('save-button').set_sensitive ((text != '') and (self._builder.get_object ('class-camel').get_text () != ''))
+        self._builder.get_object ('save_button').set_sensitive ((text != '') and (self._builder.get_object ('class_camel').get_text () != ''))
 
     def set_controller (self, controller):
         self._controller = controller
