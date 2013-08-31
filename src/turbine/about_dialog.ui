@@ -15,10 +15,10 @@
     <property name="copyright">Copyright 2009,2010,2012 Intel Corporation
 Copyright 2005 Ross Burton, Dafydd Harries</property>
     <property name="website">https://developer.gnome.org/</property>
-    <property name="authors">Juan R. Garcia Blanco &lt;juanrgar@gmail.com&gt;
-Thomas Wood &lt;thos@gnome.org&gt;
+    <property name="authors">Thomas Wood &lt;thos@gnome.org&gt;
 Ross Burton &lt;ross@burtonini.com&gt;
-Dafydd Harries &lt;daf@rhydd.org&gt;</property>
+Dafydd Harries &lt;daf@rhydd.org&gt;
+Juan R. Garcia Blanco &lt;juanrgar@gmail.com&gt;</property>
     <property name="logo_icon_name">applications-development</property>
     <property name="license_type">gpl-3-0</property>
     <child internal-child="vbox">
