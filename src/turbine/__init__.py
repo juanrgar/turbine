@@ -25,11 +25,13 @@
 #
 # Template text is Public Domain
 
+from gi.repository import GLib, Gtk, Gio
+from gettext import gettext as _
 import os
-from gi.repository import Gtk
 import re
 import sys
 
+from turbine.application import Application
 import turbine.template
 
 PACKAGE_NAME    = "GObject Generator"
@@ -39,6 +41,79 @@ PACKAGE_AUTHORS = ["Thomas Wood <thos@gnome.org>",
                    "Dafydd Harries <daf@rhydd.org>"]
 PACKAGE_COPYRIGHT = "Copyright 2009,2010,2012 Intel Corporation\n" \
                     "Copyright 2005 Ross Burton, Dafydd Harries"
+
+class Turbine (Gtk.Application):
+
+    def __init__ (self):
+        Gtk.Application.__init__(self, application_id='org.gnome.Turbine', flags=Gio.ApplicationFlags.FLAGS_NONE)
+        GLib.set_application_name(_('Turbine'))
+
+        self._window = None
+
+    def do_startup (self):
+        Gtk.Application.do_startup(self)
+        self.build_app_menu ()
+
+    def build_app_menu (self):
+        builder = Gtk.Builder()
+        ui_file = os.path.join(os.path.dirname(__file__), 'turbine.xml');
+        builder.add_from_file (ui_file)
+
+        self.set_app_menu (builder.get_object ('app-menu'))
+
+        about_action = Gio.SimpleAction.new ('about', None)
+        about_action.connect ('activate', self.about)
+        self.add_action (about_action)
+
+    def about (self, action, param):
+        about = Gtk.AboutDialog()
+        about.set_transient_for (self._window)
+        about.set_name (PACKAGE_NAME)
+        about.set_version (PACKAGE_VERSION)
+        about.set_authors (PACKAGE_AUTHORS)
+        about.set_copyright (PACKAGE_COPYRIGHT)
+        about.set_license ("")
+        about.set_logo_icon_name ("applications-development")
+        about.run ()
+        about.destroy ()
+
+    def do_activate (self):
+        builder = Gtk.Builder()
+        ui_file = os.path.join(os.path.dirname(__file__), 'turbine.xml');
+        builder.add_from_file (ui_file)
+
+        self._window = builder.get_object ('main-window')
+        self._window.set_application(self)
+        self._window.show_all()
+
+        self._window.connect ('delete-event', Gtk.main_quit);
+
+        button = builder.get_object ('new-button')
+        button.connect ('clicked', clear_ui, builder)
+
+        button = builder.get_object ('save-button')
+        button.connect ('clicked', handle_post, builder)
+
+        button = builder.get_object ('about-button')
+        button.connect ('clicked', about_button_clicked_cb, builder)
+
+        # enable hint text in the status bar
+        string_keys = ("class_camel", "class_lower", "package_upper",
+                       "object_upper", "parent", "parent_camel");
+        for key in string_keys:
+            builder.get_object (key).connect ("focus-in-event", entry_focus_in_cb, builder)
+            builder.get_object (key).connect ("focus-out-event", entry_focus_out_cb, builder)
+
+        builder.get_object ('class_camel').connect ('changed', guess_class_params, builder)
+        builder.get_object ('parent_camel').connect ('changed', guess_parent_params, builder)
+
+        # implemented interfaces
+        builder.get_object ('add-interface-button').connect ('clicked',
+                                                        add_interface_cb, builder)
+        builder.get_object ('remove-interface-button').connect ('clicked',
+                                                           remove_interface_cb, builder)
+        builder.get_object ('interfaces-treeviewcell').connect ('edited',
+                                                           interface_edited_cb, builder)
 
 def make_iface_init_func_name (iface):
     return (iface.replace ('_TYPE', '') + '_iface_init').lower()
@@ -319,7 +394,6 @@ def interface_edited_cb (cellrenderertext, path, new_text, ui):
     model.set (model.get_iter (path), 0, new_text, 1, struct_name)
 
 def clear_ui (button, ui):
-    entry = ui.get_object
     string_keys = ("class_camel", "class_lower", "package_upper",
                    "object_upper", "parent", "parent_camel");
     for key in string_keys:
@@ -332,41 +406,9 @@ def entry_focus_in_cb (entry, event, ui):
 def entry_focus_out_cb (entry, event, ui):
     ui.get_object ("statusbar").pop (0)
 
-def main(argv = sys.argv, stdout=sys.stdout, stderr=sys.stderr):
-    ui = Gtk.Builder()
-    ui_file = os.path.join(os.path.dirname(__file__), 'turbine.xml');
-    ui.add_from_file (ui_file)
+def main(argv=sys.argv, stdout=sys.stdout, stderr=sys.stderr):
+    app = Application ()
+    exit_status = app.run (sys.argv)
+    sys.exit (exit_status)
 
-    window = ui.get_object ('main-window')
-    window.show_all()
-    window.connect ('delete-event', Gtk.main_quit);
-
-    button = ui.get_object ('new-button')
-    button.connect ('clicked', clear_ui, ui)
-
-    button = ui.get_object ('save-button')
-    button.connect ('clicked', handle_post, ui)
-
-    button = ui.get_object ('about-button')
-    button.connect ('clicked', about_button_clicked_cb, ui)
-
-    # enable hint text in the status bar
-    string_keys = ("class_camel", "class_lower", "package_upper",
-                   "object_upper", "parent", "parent_camel");
-    for key in string_keys:
-        ui.get_object (key).connect ("focus-in-event", entry_focus_in_cb, ui)
-        ui.get_object (key).connect ("focus-out-event", entry_focus_out_cb, ui)
-
-    ui.get_object ('class_camel').connect ('changed', guess_class_params, ui)
-    ui.get_object ('parent_camel').connect ('changed', guess_parent_params, ui)
-
-    # implemented interfaces
-    ui.get_object ('add-interface-button').connect ('clicked',
-                                                    add_interface_cb, ui)
-    ui.get_object ('remove-interface-button').connect ('clicked',
-                                                       remove_interface_cb, ui)
-    ui.get_object ('interfaces-treeviewcell').connect ('edited',
-                                                       interface_edited_cb, ui)
-
-    Gtk.main()
 

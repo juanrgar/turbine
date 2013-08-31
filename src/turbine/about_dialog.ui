@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <!-- interface-requires gtk+ 3.6 -->
+  <object class="GtkAboutDialog" id="about_dialog">
+    <property name="can_focus">False</property>
+    <property name="border_width">5</property>
+    <property name="modal">True</property>
+    <property name="window_position">center-on-parent</property>
+    <property name="destroy_with_parent">True</property>
+    <property name="type_hint">dialog</property>
+    <property name="skip_taskbar_hint">True</property>
+    <property name="skip_pager_hint">True</property>
+    <property name="program_name">Turbine</property>
+    <property name="version">0.1</property>
+    <property name="copyright">Copyright 2009,2010,2012 Intel Corporation
+Copyright 2005 Ross Burton, Dafydd Harries</property>
+    <property name="website">https://developer.gnome.org/</property>
+    <property name="authors">Juan R. Garcia Blanco &lt;juanrgar@gmail.com&gt;
+Thomas Wood &lt;thos@gnome.org&gt;
+Ross Burton &lt;ross@burtonini.com&gt;
+Dafydd Harries &lt;daf@rhydd.org&gt;</property>
+    <property name="logo_icon_name">applications-development</property>
+    <property name="license_type">gpl-3-0</property>
+    <child internal-child="vbox">
+      <object class="GtkBox" id="aboutdialog-vbox1">
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox" id="aboutdialog-action_area1">
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="pack_type">end</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>
