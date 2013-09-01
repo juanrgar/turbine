@@ -50,11 +50,17 @@ class Window (Gtk.ApplicationWindow):
         save_button = self._builder.get_object ('save_button')
         class_camel_entry = self._builder.get_object ('class_camel')
         parent_camel_entry = self._builder.get_object ('parent_camel')
+        add_interface_button = self._builder.get_object ('add-interface-button')
+        remove_interface_button = self._builder.get_object ('remove-interface-button')
+        interfaces_treeviewcell = self._builder.get_object ('interfaces_treeviewcell')
 
         new_button.connect ('clicked', self.new)
         save_button.connect ('clicked', self.save)
         class_camel_entry.connect ('changed', self.guess_class_params)
         parent_camel_entry.connect ('changed', self.guess_parent_params)
+        add_interface_button.connect ('clicked', self.add_interface)
+        remove_interface_button.connect ('clicked', self.remove_interface)
+        interfaces_treeviewcell.connect ('edited', self.interface_edited)
 
         self.setup_statusbar ()
 
@@ -67,7 +73,7 @@ class Window (Gtk.ApplicationWindow):
                        'object_upper', 'parent', 'parent_camel')
         for key in string_keys:
             self._builder.get_object (key).set_text ('')
-        self._builder.get_object ('interfaces-model').clear ()
+        self._builder.get_object ('interfaces_model').clear ()
 
     def save (self, widget):
         select_folder = Gtk.FileChooserDialog('Select Destination',
@@ -90,7 +96,7 @@ class Window (Gtk.ApplicationWindow):
         bool_keys = ('props', 'finalize', 'dispose', 'private', 'abstract')
         data = {}
 
-        model = self._builder.get_object ('interfaces-model')
+        model = self._builder.get_object ('interfaces_model')
         data['interfaces'] = model
 
         for key in string_keys:
@@ -178,6 +184,39 @@ class Window (Gtk.ApplicationWindow):
         self._builder.get_object ('parent').set_text (s.upper())
 
         self._builder.get_object ('save_button').set_sensitive ((text != '') and (self._builder.get_object ('class_camel').get_text () != ''))
+
+    def add_interface (self, widget):
+        model = self._builder.get_object ('interfaces_model')
+        iter = model.append (['', ''])
+        treeview = self._builder.get_object ('interfaces_treeview')
+        column = treeview.get_column (0)
+        path = model.get_path (iter)
+        treeview.set_cursor (path, column, True)
+
+    def remove_interface (self, widget):
+        selection = self._builder.get_object ('interfaces_treeview').get_selection ()
+        (model, iter) = selection.get_selected ()
+        if iter == None:
+            return
+        # move selection forward
+        newiter = model.iter_next (iter)
+        # or backward ...
+        if newiter == None:
+            path = model.get_path (iter)
+            path = (path[0] - 1,)
+            if (path[0] >= 0):
+              newiter = model.get_iter (path)
+
+        if newiter:
+          selection.select_iter (newiter)
+        if iter:
+            model.remove (iter)
+
+    def interface_edited (self, renderer, path, new_text):
+        model = self._builder.get_object ('interfaces_model')
+        iter = model.get_iter (path)
+        struct_name = new_text.replace ('_TYPE', '').replace ('_', ' ').title().replace (' ', '') + 'Iface'
+        model.set (model.get_iter (path), 0, new_text, 1, struct_name)
 
     def set_controller (self, controller):
         self._controller = controller

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <!-- interface-requires gtk+ 3.0 -->
-  <object class="GtkListStore" id="interfaces-model">
+  <object class="GtkListStore" id="interfaces_model">
     <columns>
       <!-- column-name type-name -->
       <column type="gchararray"/>
@@ -13,6 +13,7 @@
     <property name="show-close-button">True</property>
     <property name="visible">True</property>
     <property name="vexpand">False</property>
+    <property name="title">Turbine</property>
     <child>
       <object class="GtkToolButton" id="new_button">
         <property name="visible">True</property>
@@ -293,10 +294,10 @@
                         <property name="can_focus">True</property>
                         <property name="shadow_type">in</property>
                         <child>
-                          <object class="GtkTreeView" id="interfaces-treeview">
+                          <object class="GtkTreeView" id="interfaces_treeview">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="model">interfaces-model</property>
+                            <property name="model">interfaces_model</property>
                             <property name="headers_clickable">False</property>
                             <property name="search_column">0</property>
                             <child internal-child="selection">
@@ -306,7 +307,7 @@
                               <object class="GtkTreeViewColumn" id="treeviewcolumn1">
                                 <property name="title">Interface Type</property>
                                 <child>
-                                  <object class="GtkCellRendererText" id="interfaces-treeviewcell">
+                                  <object class="GtkCellRendererText" id="interfaces_treeviewcell">
                                     <property name="editable">True</property>
                                   </object>
                                   <attributes>
